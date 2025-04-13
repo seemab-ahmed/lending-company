@@ -1,0 +1,77 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .dropdown-icon {
+    color: #091b33;
+    display: flex;
+    font-size: 18px;
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.856);
+    border: 1px solid #ddddddd3;
+    border-radius: 4px;
+    overflow: hidden;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdown-menu li:last-child a {
+    border-bottom: none;
+  }
+  
+  .dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+  }
+
+  .dropdown-menu .dropdown-link-item {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    display: block;
+    font-weight: 600;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    transition: all 0.4s ease-in-out;
+    position: relative;
+    display: block;
+  }
+.dropdown-menu .dropdown-link-item:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px; /* Set the height of the underline */
+    background: #005ec4; /* Line color */
+    width: 0; /* Initial width to zero */
+    transition: width 0.4s ease-in-out; /* Smooth width transition */
+  }
+  
+  .dropdown-menu .dropdown-link-item:hover:after {
+    width: 100%; /* Expand the line to full width on hover */
+  }
+  @media screen and (max-width:992px) {
+    .dropdown-icon {
+      font-size: 15px;
+  }
+    
+  }
+  @media screen and (max-width:992px) {
+    .dropdown-icon {
+      font-size: 18px;
+      padding: 15px 30px;
+  }
+    
+  }
