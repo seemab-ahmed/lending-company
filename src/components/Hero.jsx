@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import "../css/Hero.css";
-import { Link as ScrollLink } from "react-scroll";
+// import { Link as ScrollLink } from "react-scroll";
 
 // Lazy load images
 const LazyImage = lazy(() => import("./LazyImage"));

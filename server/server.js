@@ -305,6 +305,34 @@ app.post("/submit-loan-application", async (req, res) => {
   }
 });
 
+
+/**
+ * ✅ First Time Buryers API
+ */
+app.post("/first-time-buyers", async (req, res) => {
+  try {
+   const result = await axios.post(GOOGLE_SCRIPT_URL, { type: "firstTimeBuyers", ...req.body });
+console.log({result});
+
+    res.json({ message: "✅ First Time Buryers submitted successfully!" });
+  } catch (error) {
+    console.error("❌ First Time Buryers Error:", error.message);
+    res.status(500).json({ error: "❌ Failed to submit First Time Buryers." });
+  }
+});
+
+
+app.post("/commercial-mortgages", async (req, res) => {
+  try {
+    await axios.post(GOOGLE_SCRIPT_URL, { type: "commercialMortgages", ...req.body });
+
+    res.json({ message: "✅ Commercial Mortgages submitted successfully!" });
+  } catch (error) {
+    console.error("❌ Commercial Mortgages Error:", error.message);
+    res.status(500).json({ error: "❌ Failed to submit Commercial Mortgages." });
+  }
+});
+
 /**
  * ✅ XML Parsing Helper Function
  */

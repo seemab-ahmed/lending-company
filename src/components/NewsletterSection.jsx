@@ -21,6 +21,8 @@ const NewsletterSection = () => {
     setMessage("Submitting...");
 
     try {
+      //http://localhost:3000/subscribe
+      //${API_URL}/subscribe
       const response = await fetch(`${API_URL}/subscribe`, {
         method: "POST",
         body: JSON.stringify({ email }),

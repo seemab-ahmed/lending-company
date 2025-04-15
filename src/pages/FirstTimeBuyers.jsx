@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"; // update this line if not already
+import React, { useState, useEffect, useRef } from "react";
 import { FaCaretRight } from "react-icons/fa";
 import Hero from "../components/Hero";
 import CtaSection from "../components/CtaSection";
@@ -6,6 +6,7 @@ import QualitySection from "../components/QualitySection";
 import NewsletterSection from "../components/NewsletterSection";
 import "../css/ProgramPage.css";
 import "../css/commercialmortgages.css";
+import { BASE_URL } from "../services/apiService";
 
 import FirstTimeBuyersLoan from "../assets/architecture-3121009.webp";
 import CtaImg1 from "../assets/palace-1366178.webp";
@@ -25,7 +26,7 @@ const TypingText = () => {
     ["We Work for You.", "Not a Commission."],
     ["100% Transparent.", "Always Fee-Free."],
     ["Expert Support.", "Zero Broker Charges."],
-    ["Let’s Get You Home.", "No Fees Involved."]
+    ["Let's Get You Home.", "No Fees Involved."]
   ];
 
   const getRandomMessage = () => fullMessageList[Math.floor(Math.random() * fullMessageList.length)];
@@ -191,8 +192,6 @@ const animationStyle = `
     }
   }
 `;
-
-
 
 const FirstTimeBuyers = () => {
   const [contactMethod, setContactMethod] = useState("");
@@ -431,29 +430,71 @@ const FirstTimeBuyers = () => {
     setLoading(true);
     setMessage("");
 
-    const API_URL = "http://localhost:3000/submit-first-time-buyer";
+    // Basic validation
+    if (!contactMethod) {
+      setMessage("❌ Please select a contact method");
+      setLoading(false);
+      return;
+    }
 
-    const cleanedData = {
-      type: "first_time_buyer_request",
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      dob: formData.dob,
-      email: contactMethod === "Email" ? formData.email : "",
-      phoneNumber: contactMethod === "Phone" ? formData.phoneNumber : "",
-      bestTimeToCall: bestTimeToCall,
-      otherDate: otherDate,
-      otherDateTimeSlot: otherDateTimeSlot,
-    };
+    if (contactMethod === "Phone" && !formData.phoneNumber) {
+      setMessage("❌ Phone number is required");
+      setLoading(false);
+      return;
+    }
+
+    if (contactMethod === "Email" && !formData.email) {
+      setMessage("❌ Email address is required");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.firstName || !formData.lastName || !formData.dob) {
+      setMessage("❌ All fields are required");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch(API_URL, {
+      //http://localhost:3000/
+      //${BASE_URL}
+      const response = await fetch(`${BASE_URL}/first-time-buyers`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cleanedData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: "firstTimeBuyers",
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          dob: formData.dob,
+          email: contactMethod === "Email" ? formData.email : "",
+          phoneNumber: contactMethod === "Phone" ? formData.phoneNumber : "",
+          bestTimeToCall: bestTimeToCall,
+          otherDate: otherDate,
+          otherDateTimeSlot: otherDateTimeSlot,
+        }),
       });
 
       const result = await response.json();
-      setMessage(result.message ? "✅ Request submitted successfully!" : "❌ Submission failed. Please try again.");
+      
+      if (response.ok) {
+        setMessage("✅ Request submitted successfully!");
+        // Reset form fields if needed
+        setFormData({
+          firstName: "",
+          lastName: "",
+          dob: "",
+          email: "",
+          phoneNumber: "",
+        });
+        setContactMethod("");
+        setBestTimeToCall("");
+        setOtherDate("");
+        setOtherDateTimeSlot("");
+      } else {
+        setMessage(`❌ ${result.error || "Submission failed. Please try again."}`);
+      }
     } catch (error) {
       setMessage("⚠️ Error submitting form. Please check your internet connection.");
       console.error("❌ Submission error:", error);
@@ -461,7 +502,6 @@ const FirstTimeBuyers = () => {
 
     setLoading(false);
   };
-
 
   return (
     <>
@@ -475,7 +515,6 @@ const FirstTimeBuyers = () => {
         id="hero"
       />
       <TypingText />
-
 
       {/* Form Section */}
       <div className="form-container">
@@ -626,7 +665,7 @@ const FirstTimeBuyers = () => {
       <CtaSection
         ctaDirection="reverse light"
         ctaHeading="Why Choose Our First-Time Buyer Mortgage Services"
-        ctaParagraph="Buying your first home is a major milestone, and we’re here to make the process easier. Our mortgage solutions are designed specifically for first-time buyers, offering low deposit options, government-backed schemes, and expert guidance throughout the journey."
+        ctaParagraph="Buying your first home is a major milestone, and we're here to make the process easier. Our mortgage solutions are designed specifically for first-time buyers, offering low deposit options, government-backed schemes, and expert guidance throughout the journey."
         ctaImg1={CtaImg3}
         ctaImg2={CtaImg4}
         altText1="Front Image Description"

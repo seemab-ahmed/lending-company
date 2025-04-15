@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaCaretDown, FaCaretRight } from "react-icons/fa";
+import { FaCaretDown } from "react-icons/fa";
 import Logo1 from "../assets/development-finance.webp";
 import Logo2 from "../assets/development-finance.webp";
 import LoanComparisonForm from "./LoanComparisonForm";
@@ -10,7 +10,6 @@ import { RevolvingDot } from 'react-loader-spinner';
 import "../css/LoanComparison.css";
 // Lender logo mapping
 const lenderLogos = {
-  "Virgin Money": Logo1,
   "NatWest": Logo2,
   // Add more lenders as needed
 };
@@ -65,7 +64,6 @@ const LoanComparison = ({ comparetText }) => {
   const [termMonths, setTermMonths] = useState(12);
   const [termUnit, setTermUnit] = useState("");
   const [loanType, setLoanType] = useState("Remortgage");
-  const [mortgageType, setMortgageType] = useState("Remortgage");
   const [paymentMethod, setPaymentMethod] = useState("");
   useEffect(() => {
     let programsType;
@@ -83,6 +81,7 @@ const LoanComparison = ({ comparetText }) => {
       setTermUnit("Months");
       setPaymentMethod("RolledUp");
     }
+    console.log(programsType);
   }, [comparetText]);
 
   useEffect(() => {
@@ -161,8 +160,8 @@ const LoanComparison = ({ comparetText }) => {
     }
 
     try {
-      console.log("loanType", loanType);
-      let loanTypex = loanType;
+      // console.log("loanType", loanType);
+      // let loanTypex = loanType;
       const data = await fetchMortgageData(
         programsType,
         {
@@ -219,19 +218,19 @@ const LoanComparison = ({ comparetText }) => {
     await handleGetResults(filters); // Call the API with the updated filters
   };
 
-  const handleOptionChange = async (category, value) => {
-    // Update the selected options
-    const updatedOptions = {
-      ...selectedOptions,
-      [category]: value,
-    };
+  // const handleOptionChange = async (category, value) => {
+  //   // Update the selected options
+  //   const updatedOptions = {
+  //     ...selectedOptions,
+  //     [category]: value,
+  //   };
 
-    // Update the state with the new options
-    setSelectedOptions(updatedOptions);
+  //   // Update the state with the new options
+  //   setSelectedOptions(updatedOptions);
 
-    // Call the API with the updated filters
-    await handleGetResults(updatedOptions);
-  };
+  //   // Call the API with the updated filters
+  //   await handleGetResults(updatedOptions);
+  // };
 
 
   return (

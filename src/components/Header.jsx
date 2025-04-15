@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import "../css/Header.css";
 import { FaCaretDown } from "react-icons/fa";
 import DropdownMenu from "../ui/DropdownMenu";
-import { Link, useLocation } from "react-router-dom";
-import { scroller } from "react-scroll";
+import { Link } from "react-router-dom";
+// import { scroller } from "react-scroll";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
+  // const location = useLocation();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);

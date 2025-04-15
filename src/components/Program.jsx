@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBridge, faBuilding, faHome, faLandmark } from '@fortawesome/free-solid-svg-icons';
 import "../css/Program.css"; // Use the same styling
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const Program = () => {
   return (

@@ -76,7 +76,7 @@ const TypingText = () => {
 
   React.useEffect(() => {
     adjustFontSize();
-  }, [displayedText, fontSize]);
+  }, [displayedText, fontSize, adjustFontSize]);
 
   React.useEffect(() => {
     if (pause) return;

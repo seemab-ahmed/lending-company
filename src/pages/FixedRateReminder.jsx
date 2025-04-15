@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Hero from "../components/Hero";
 import QualitySection from "../components/QualitySection";
-import CtaSection from "../components/CtaSection";
+// import CtaSection from "../components/CtaSection";
 import NewsletterSection from "../components/NewsletterSection";
 import backgroundImage from "../assets/palace-1366178.webp";
 import "../css/FormStyles.css";

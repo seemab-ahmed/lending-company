@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FaCaretRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import CtaSection from "../components/CtaSection";
 import QualitySection from "../components/QualitySection";
 import NewsletterSection from "../components/NewsletterSection";
+import { BASE_URL } from "../services/apiService";
 
 // Assets
 import commercialFinance from "../assets/development-finance.webp";
@@ -253,29 +254,71 @@ const CommercialMortgages = () => {
     setLoading(true);
     setMessage("");
 
-    const API_URL = "http://localhost:3000/submit-commercial-mortgage";
+    // Basic validation
+    if (!contactMethod) {
+      setMessage("❌ Please select a contact method");
+      setLoading(false);
+      return;
+    }
 
-    const cleanedData = {
-      type: "commercial_mortgage_request",
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      dob: formData.dob,
-      email: contactMethod === "Email" ? formData.email : "",
-      phoneNumber: contactMethod === "Phone" ? formData.phoneNumber : "",
-      bestTimeToCall: bestTimeToCall,
-      otherDate: otherDate,
-      otherDateTimeSlot: otherDateTimeSlot,
-    };
+    if (contactMethod === "Phone" && !formData.phoneNumber) {
+      setMessage("❌ Phone number is required");
+      setLoading(false);
+      return;
+    }
+
+    if (contactMethod === "Email" && !formData.email) {
+      setMessage("❌ Email address is required");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.firstName || !formData.lastName || !formData.dob) {
+      setMessage("❌ All fields are required");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch(API_URL, {
+      //http://localhost:3000/commercial-mortgages
+      //${BASE_URL}
+      const response = await fetch(`${BASE_URL}/commercial-mortgages`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cleanedData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: "commercialMortgages",
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          dob: formData.dob,
+          email: contactMethod === "Email" ? formData.email : "",
+          phoneNumber: contactMethod === "Phone" ? formData.phoneNumber : "",
+          bestTimeToCall: bestTimeToCall,
+          otherDate: otherDate,
+          otherDateTimeSlot: otherDateTimeSlot,
+        }),
       });
 
       const result = await response.json();
-      setMessage(result.message ? "✅ Request submitted successfully!" : "❌ Submission failed. Please try again.");
+      
+      if (response.ok) {
+        setMessage("✅ Request submitted successfully!");
+        // Reset form fields if needed
+        setFormData({
+          firstName: "",
+          lastName: "",
+          dob: "",
+          email: "",
+          phoneNumber: "",
+        });
+        setContactMethod("");
+        setBestTimeToCall("");
+        setOtherDate("");
+        setOtherDateTimeSlot("");
+      } else {
+        setMessage(`❌ ${result.error || "Submission failed. Please try again."}`);
+      }
     } catch (error) {
       setMessage("⚠️ Error submitting form. Please check your internet connection.");
       console.error("❌ Submission error:", error);
@@ -457,7 +500,7 @@ const CommercialMortgages = () => {
       <CtaSection
         ctaDirection=""
         ctaHeading="Our Commercial Mortgage Approach"
-        ctaParagraph="With a deep understanding of commercial property finance, our team works alongside you to secure funding that aligns with your business goals. We simplify the complex application process, negotiate competitive terms on your behalf, and remain available throughout your journey. At The Lending Company, we don’t just offer mortgages—we build long-term partnerships focused on growth."
+        ctaParagraph="With a deep understanding of commercial property finance, our team works alongside you to secure funding that aligns with your business goals. We simplify the complex application process, negotiate competitive terms on your behalf, and remain available throughout your journey. At The Lending Company, we don't just offer mortgages—we build long-term partnerships focused on growth."
         ctaImg1={CtaImg3}
         ctaImg2={CtaImg4}
         altText1="Commercial Strategy"
