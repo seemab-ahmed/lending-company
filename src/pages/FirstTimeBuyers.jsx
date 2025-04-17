@@ -464,7 +464,7 @@ const FirstTimeBuyers = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          type: "firstTimeBuyers",
+          type: "FirstTimeBuyer",
           firstName: formData.firstName,
           lastName: formData.lastName,
           dob: formData.dob,

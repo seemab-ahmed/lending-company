@@ -16,7 +16,9 @@ const API_URL = "https://api.twenty7tec.com/sourcing.svc?wsdl";
 const LICENSE_KEY = "881918bf-c118-48f3-982d-6678fa4cf37d";
 const COMPANY_ID = "VLYZVW";
 const SITE_ID = "BTMIKK";
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzta_Y74BF7knB-PW5tH7I4euZgyyr6cEByCeTzVXeKWqHchSM93YpshJpB6gBk5LDRyw/exec";
+const GOOGLE_SCRIPT_URL ="https://script.google.com/macros/s/AKfycbzwdnOjEDe5NN6dKyWUyHx7-3JgnHSrIiyYgDZLSPaLWR7vDRd-Nx8p8cfxZuWkJT-i7g/exec"
+
+//"https://script.google.com/macros/s/AKfycbzta_Y74BF7knB-PW5tH7I4euZgyyr6cEByCeTzVXeKWqHchSM93YpshJpB6gBk5LDRyw/exec";
 
 /**
  * ✅ Mortgage API Route (No changes made)
@@ -296,7 +298,7 @@ app.post("/subscribe", async (req, res) => {
  */
 app.post("/submit-loan-application", async (req, res) => {
   try {
-    await axios.post(GOOGLE_SCRIPT_URL, { type: "loan_application", ...req.body });
+    await axios.post(GOOGLE_SCRIPT_URL, { type: "LoanApplication", ...req.body });
 
     res.json({ message: "✅ Loan application submitted successfully!" });
   } catch (error) {
@@ -311,7 +313,7 @@ app.post("/submit-loan-application", async (req, res) => {
  */
 app.post("/first-time-buyers", async (req, res) => {
   try {
-   const result = await axios.post(GOOGLE_SCRIPT_URL, { type: "firstTimeBuyers", ...req.body });
+   const result = await axios.post(GOOGLE_SCRIPT_URL, { type: "FirstTimeBuyer", ...req.body });
 console.log({result});
 
     res.json({ message: "✅ First Time Buryers submitted successfully!" });

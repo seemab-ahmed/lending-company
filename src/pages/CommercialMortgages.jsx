@@ -280,7 +280,6 @@ const CommercialMortgages = () => {
     }
 
     try {
-      //http://localhost:3000/commercial-mortgages
       //${BASE_URL}
       const response = await fetch(`${BASE_URL}/commercial-mortgages`, {
         method: "POST",

@@ -1,3 +1,242 @@
+// import React, { useState, useEffect } from 'react';
+// import { useLocation } from 'react-router-dom';
+// import { FaCaretRight } from "react-icons/fa";
+// import Hero from "../components/Hero";
+// import QualitySection from "../components/QualitySection";
+// import NewsletterSection from "../components/NewsletterSection";
+// import LoanImage from "../assets/loan-img.webp";
+// import backgroundImage1 from "../assets/palace-1366178.webp"; // Import the image for QualitySection
+// import "../css/FormStyles.css";
+
+// const Configure = () => {
+//   const [formData, setFormData] = useState({
+//     service: "",
+//     fullName: "",
+//     contactInfo: "",
+//     dob: "",
+//     ownershipType: "",
+//     companyName: "",
+//     mortgageName: "",
+//     jointMortgageNames: "",
+//     limitedTimeOffer: "",
+//     notes: "",
+//   });
+
+//   const location = useLocation();
+//   const lender = location.state?.lender; // Retrieving state passed via Link
+//   const searchParams = new URLSearchParams(location.search);
+//   const productCode = searchParams.get("product");
+
+
+//   const [contactMethod, setContactMethod] = useState("");
+//   const [ownershipType, setOwnershipType] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [message, setMessage] = useState("");
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setMessage("");
+
+//     const API_URL = "http://localhost:5000/submit-loan-application";
+//     const cleanedData = {
+//       type: "loan_application",
+//       ...formData,
+//       contactInfo: formData.contactInfo,
+//     };
+
+//     try {
+//       const response = await fetch(API_URL, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(cleanedData),
+//       });
+
+//       const result = await response.json();
+//       if (response.ok) {
+//         setMessage("✅ Loan application submitted successfully!");
+//         setFormData({
+//           service: "",
+//           fullName: "",
+//           contactInfo: "",
+//           dob: "",
+//           ownershipType: "",
+//           companyName: "",
+//           mortgageName: "",
+//           jointMortgageNames: "",
+//           limitedTimeOffer: "",
+//           notes: "",
+//         });
+//         setContactMethod("");
+//         setOwnershipType("");
+//       } else {
+//         setMessage("❌ Submission failed. Please try again.");
+//       }
+//     } catch (error) {
+//       setMessage("⚠️ Error submitting form. Please check your internet connection.");
+//       console.error("❌ Submission error:", error);
+//     }
+//     setLoading(false);
+//   };
+
+//   return (
+//     <>
+//       <Hero
+//         title="Apply for Your Loan or Mortgage with Confidence"
+//         subHeading="The Lending Company – Your Trusted Partner in Financing"
+//         detail="We offer tailored loan and mortgage solutions to help you achieve your dreams. Our process is simple, transparent, and secure."
+//         className="hero-2"
+//         imageUrl={LoanImage}
+//       />
+
+// <div>
+//       {lender ? (
+//         <div>
+//           <p><strong>Product Code:</strong> {lender.productCode}</p>
+//           <p><strong>Lender Name:</strong> {lender.name}</p>
+//           <p><strong>Interest Rate:</strong> {lender.rate}</p>
+//           <p><strong>Loan Amount:</strong> {lender.loanAmount}</p>
+//           <p><strong>Loan Term:</strong> {lender.loanTerm} years</p>
+//         </div>
+//       ) : productCode ? (
+//         <p>Loading loan details for Product Code: {productCode}</p>
+//       ) : (
+//         <p>No loan details found. Please go back and select a loan.</p>
+//       )}
+//     </div>
+
+//       <div className="form-container" style={{ paddingBottom: "60px", backgroundColor: "#fff", minHeight: "120vh" }}>
+//         <div className="form-box">
+//           <h2 className="form-title">Loan Application</h2>
+//           <p className="form-subtext">
+//             Fill in your details, and our expert advisors will guide you through the best financing options available.
+//           </p>
+//           {message && <p className="submission-message">{message}</p>}
+
+//           <form onSubmit={handleSubmit} className="styled-form">
+//             <div className="form-group">
+//               <label className="form-label">Preferred Contact Method:</label>
+//               <div className="radio-group">
+//                 <label className="radio-label">
+//                   <input
+//                     type="radio"
+//                     name="contactMethod"
+//                     value="Phone"
+//                     onChange={(e) => setContactMethod(e.target.value)}
+//                     checked={contactMethod === "Phone"}
+//                   />
+//                   Phone
+//                 </label>
+//                 <label className="radio-label">
+//                   <input
+//                     type="radio"
+//                     name="contactMethod"
+//                     value="Email"
+//                     onChange={(e) => setContactMethod(e.target.value)}
+//                     checked={contactMethod === "Email"}
+//                   />
+//                   Email
+//                 </label>
+//               </div>
+//             </div>
+
+//             {contactMethod && (
+//               <div className="form-group">
+//                 <label className="form-label">What service is this about?</label>
+//                 <select className="form-input" name="service" value={formData.service} onChange={handleChange} required>
+//                   <option value="">Select a service</option>
+//                   <option value="Bridging">Bridging</option>
+//                   <option value="Buy to Let">Buy to Let</option>
+//                   <option value="Residential Mortgage">Residential Mortgage</option>
+//                   <option value="Commercial Mortgage">Commercial Mortgage</option>
+//                   <option value="Other">Other</option>
+//                 </select>
+//               </div>
+//             )}
+
+//             <div className="form-group">
+//               <label className="form-label">Full Name</label>
+//               <input className="form-input" type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+//             </div>
+
+//             {contactMethod && (
+//               <div className="form-group">
+//                 <label className="form-label">{contactMethod === "Phone" ? "Phone Number" : "Email Address"}</label>
+//                 <input className="form-input" type="text" name="contactInfo" value={formData.contactInfo} onChange={handleChange} required />
+//               </div>
+//             )}
+
+//             <div className="form-group">
+//               <label className="form-label">Date of Birth</label>
+//               <input className="form-input" type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+//             </div>
+
+//             <div className="form-group">
+//               <label className="form-label">Ownership Type</label>
+//               <select className="form-input" name="ownershipType" value={ownershipType} onChange={(e) => setOwnershipType(e.target.value)} required>
+//                 <option value="">Select Ownership Type</option>
+//                 <option value="Limited Company">Limited Company</option>
+//                 <option value="Personal - Single">Personal - Single</option>
+//                 <option value="Personal - Joint">Personal - Joint</option>
+//               </select>
+//             </div>
+
+//             {ownershipType === "Limited Company" && (
+//               <div className="form-group">
+//                 <label className="form-label">Company Name</label>
+//                 <input className="form-input" type="text" name="companyName" value={formData.companyName} onChange={handleChange} required />
+//               </div>
+//             )}
+
+//             {ownershipType === "Personal - Single" && (
+//               <div className="form-group">
+//                 <label className="form-label">Mortgage Name</label>
+//                 <input className="form-input" type="text" name="mortgageName" value={formData.mortgageName} onChange={handleChange} required />
+//               </div>
+//             )}
+
+//             {ownershipType === "Personal - Joint" && (
+//               <div className="form-group">
+//                 <label className="form-label">Names on Mortgage</label>
+//                 <input className="form-input" type="text" name="jointMortgageNames" value={formData.jointMortgageNames} onChange={handleChange} required />
+//               </div>
+//             )}
+
+//             <div className="form-group">
+//               <label className="form-label">Would you like a Limited Time Offer?</label>
+//               <select className="form-input" name="limitedTimeOffer" value={formData.limitedTimeOffer} onChange={handleChange} required>
+//                 <option value="">Select</option>
+//                 <option value="Yes">Yes</option>
+//                 <option value="No">No</option>
+//               </select>
+//             </div>
+
+//             <button type="submit" className="submit-button">
+//               {loading ? "Submitting..." : "Submit"} <FaCaretRight />
+//             </button>
+//           </form>
+//         </div>
+//       </div>
+
+//       <QualitySection
+//         preHeader="Tailored to Meet Urgent Needs"
+//         mainHeading="Flexible Financing for Immediate Property Needs"
+//         description="Our remortgage solutions are crafted for property owners needing fast, flexible capital. Whether you’re managing a switch to a better deal or need to release equity, our team offers support at every stage. With transparent terms and a focus on quick processing, we ensure you get the right remortgage solution for your needs."
+//         buttonText="Get Started"
+//         buttonLink="/"
+//         backgroundImage={backgroundImage1} // Use the imported image here
+//       />
+
+//       <NewsletterSection />
+//     </>
+//   );
+// };
+
+// export default Configure;
 
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -205,7 +444,6 @@ const Configure = () => {
 
     const API_URL = `${BASE_URL}/submit-loan-application`;
     const cleanedData = {
-      type: "loan_application",
       ...formData,
       contactInfo: formData.contactInfo,
     };
@@ -217,7 +455,8 @@ const Configure = () => {
         body: JSON.stringify(cleanedData),
       });
 
-      // const result = await response.json();
+      const result = await response.json();
+      console.log(result);
       if (response.ok) {
         setMessage("✅ Loan application submitted successfully!");
         setFormData({

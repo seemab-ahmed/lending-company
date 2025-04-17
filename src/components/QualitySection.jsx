@@ -16,9 +16,9 @@ const QualitySection = ({ preHeader, mainHeading, description, buttonText, butto
     >
       <div className="container">
         <div className="quality-top">
-          <span className="pre-header">{preHeader}</span>
-          <h2 className="secondry-heading">{mainHeading}</h2>
-          <p className="default-text">{description}</p>
+          <span className="pre-header" data-aos="fade-up">{preHeader}</span>
+          <h2 className="secondry-heading" data-aos="fade-up">{mainHeading}</h2>
+          <p className="default-text" data-aos="fade-up">{description}</p>
           {buttonText && buttonLink && (
           <a href={buttonLink} className="secondry-btn">
             {buttonText}

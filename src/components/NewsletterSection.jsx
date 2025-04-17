@@ -50,13 +50,13 @@ const NewsletterSection = () => {
     <section className="newsletter-section" id="newsletter">
       <div className="container">
         <div className="newsletter-inner">
-          <div className="newsletter-left">
+          <div className="newsletter-left" data-aos="fade-right">
             <span className="pre-header">Empowering Property Investors</span>
             <h2 className="secondry-heading">
               Stay Informed with The Lending Company
             </h2>
           </div>
-          <div className="newsletter-right">
+          <div className="newsletter-right" data-aos="fade-left">
             <p className="default-text">
               Join our mailing list for expert insights and updates on property finance.
             </p>

@@ -9,8 +9,8 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    min-height: 70vh;
-    max-height: 700px;
+    min-height: 700px;
+    /* max-height: 700px; */
     /* background-attachment: fixed !important; */
 }
 

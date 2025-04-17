@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import "../css/Hero.css";
-// import { Link as ScrollLink } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 
 // Lazy load images
 const LazyImage = lazy(() => import("./LazyImage"));
@@ -25,7 +25,7 @@ const Hero = ({ id, title, subHeading, detail, linkText, linkHref, className, im
       }}
     >
       <div className="container">
-        <div className="banner-left">
+        <div className="banner-left" data-aos="fade-right">
           <h1>{title}</h1>
           <span className="sub-heading">{subHeading}</span>
           <p className="banner-detail">{detail}</p>

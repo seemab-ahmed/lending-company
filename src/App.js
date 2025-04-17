@@ -3,6 +3,9 @@ import './css/fonts.css';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import BridgingFinance from './pages/BridgingFinance';
 import BuytoLet from './pages/BuytoLet';
 import ResidentialMortgages from './pages/ResidentialMortgages';
@@ -14,16 +17,25 @@ import UrgentRemortgage from "./pages/UrgentRemortgage";
 import FirstTimeBuyers from "./pages/FirstTimeBuyers";
 import FAQs from "./pages/FAQs";
 import BlogPage from './pages/blog';
+import MortgageProtection from './pages/MortgageProtection';
+import ForeignNationals from './pages/ForeignNationals';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Loader from './components/Loader'; // Importing Loader component
+import Loader from './components/Loader';
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Function to check if images have loaded
+    // Initialize AOS
+    AOS.init({
+      duration: 1200,
+      once: true,
+      easing: 'ease-in-out',
+    });
+
+    // Image loading
     const checkAllImagesLoaded = () => {
       const images = document.getElementsByTagName('img');
       let loaded = 0;
@@ -35,33 +47,35 @@ function App() {
           image.onload = () => {
             loaded++;
             if (loaded === images.length) {
-              setLoading(false); // All images loaded
+              setLoading(false);
             }
           };
         }
       });
 
-      // If all images are already loaded
       if (images.length === loaded) {
         setLoading(false);
       }
     };
 
-    // Ensure window.onload is triggered and image loading is handled
     const handleLoad = () => {
       setTimeout(() => {
         checkAllImagesLoaded();
-      }, 3000); // Optional delay for smooth transition
+      }, 3000);
     };
 
     if (document.readyState === 'complete') {
-      handleLoad(); // if already loaded
+      handleLoad();
     } else {
       window.addEventListener('load', handleLoad);
     }
 
     return () => window.removeEventListener('load', handleLoad);
   }, []);
+
+  useEffect(() => {
+    AOS.refresh(); // Refresh AOS on route/component updates
+  });
 
   if (loading) {
     return <Loader />;
@@ -83,6 +97,9 @@ function App() {
           <Route path="/first-time-buyers" element={<FirstTimeBuyers />} />
           <Route path="/faqs" element={<FAQs />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/mortgage-protection" element={<MortgageProtection />} /> 
+          <Route path="/mortgage-protection" element={<MortgageProtection />} /> 
+          <Route path="/foreign-nationals" element={<ForeignNationals />} />
         </Routes>
         <Footer />
       </div>
